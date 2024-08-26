@@ -1,0 +1,13 @@
+.git
+.gitignore
+
+Dockerfile
+.dockerignore
+
+**/.mypy_**
+**/__pycache__/
+.venv
+
+**.sqlite
+
+**.md
