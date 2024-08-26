@@ -2,7 +2,7 @@ import math
 
 import requests
 
-from task.models.stores import (Stores, get_stores,
+from task.models.stores import (Stores, get_stores, sort_stores_north_to_south,
                                 update_lat_long_stores_in_bulk,
                                 update_postcode_stores_in_bulk)
 
