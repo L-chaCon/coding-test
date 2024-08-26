@@ -41,4 +41,3 @@ def calculate_lat_long():
         message = "Fail to update, try cleaning the database"
     stores = get_all_stores_in_alphabetical_order()
     return render_template("stores.html", stores = stores, message = message)
-

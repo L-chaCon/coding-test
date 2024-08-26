@@ -75,3 +75,11 @@ def update_lat_long_stores_in_bulk(update_data: list[dict]) -> None:
     finally:
         db.session.close()
 
+
+def sort_stores_north_to_south(stores: list[Stores]) -> list[Stores]:
+    try:
+        postcodes = [store.postcode for store in stores]
+        store_list =  Stores.query.filter(Stores.postcode.in_(postcodes)).order_by(desc(Stores.latitude)).all()
+    except:
+        raise Exception()
+    return store_list 

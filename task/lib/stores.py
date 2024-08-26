@@ -1,3 +1,5 @@
+import math
+
 import requests
 
 from task.models.stores import (Stores, get_stores,
@@ -96,3 +98,87 @@ def update_lat_long_of_stores(postcodes: list = []) -> bool:
         # NOTE: This can be Loged
         print("Not able to update lat long")
     return data_updated
+
+# NOTE: This was my first aproach but realiced that the limit of radius was 150 meters.
+# so there were just one store in the radius all the time
+#
+# def stores_in_poscode_radius(postcode: str, radius: float) -> list[Stores]:
+#     try:
+#         postcode_lat_long_map = get_lat_long_for_postcodes([postcode])
+#         lat = postcode_lat_long_map[postcode][0]
+#         long = postcode_lat_long_map[postcode][1] 
+#     except:
+#         raise Exception()
+#     postcode_list = []
+#     url = "https://api.postcodes.io/postcodes"
+#     paylode = {
+#         "geolocations" : [{
+#             "longitude": long,
+#             "latitude": lat,
+#             "radius": radius
+#         }]
+#     }
+#     response = requests.post(url, json=paylode)
+#     if response.status_code == 200:
+#         data = response.json()
+#         if data.get('status') == 200:
+#             result = data.get('result')[0]
+#             geodata_list = result.get('result')
+#             for item in geodata_list:
+#                 postcode_list.append(item['postcode'])
+#         else:
+#             raise ValueError(f"{data.get('error')}")
+#     else:
+#         raise Exception(f"Failed to get data from Postcodes.io API. Status code: {response.status_code}")
+#
+#     if postcode_list:
+#         stores = get_stores(postcode_list)
+#         if stores:
+#             sorted_stores = sort_stores_north_to_south(stores)
+#             return sorted_stores
+#     return []
+
+
+def haversine(lat_1: float, long_1: float, lat_2: float, long_2: float) -> float:
+    lat_1 = math.radians(lat_1)
+    long_1 = math.radians(long_1)
+    lat_2 = math.radians(lat_2)
+    long_2 = math.radians(long_2)
+
+    # Haversine formula
+    delta_lat = lat_2 - lat_1
+    delta_long = long_2 - long_1
+    a = math.sin(delta_lat / 2)**2 + math.cos(lat_1) * math.cos(lat_2) * math.sin(delta_long / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    r = 6371.0
+    distance = r * c
+    return distance
+
+
+def stores_in_poscode_radius(postcode: str, radius: float) -> list[Stores]:
+    try:
+        postcode_lat_long_map = get_lat_long_for_postcodes([postcode])
+        lat_of_postcode = postcode_lat_long_map[postcode][0]
+        long_of_postcode = postcode_lat_long_map[postcode][1] 
+    except:
+        raise Exception()
+
+    stores_in_radius = []
+    stores = get_stores()
+    for store in stores:
+        store_lat = store.latitude
+        store_long = store.longitude
+        if store_lat and store_long:
+            distance_to = haversine(lat_of_postcode, long_of_postcode, store_lat, store_long)
+            if distance_to <= radius:
+                stores_in_radius.append(store)
+        else:
+           # NOTE: This can be Loged
+            print("Not able to update lat long")
+ 
+    if stores_in_radius:
+        sorted_stores = sort_stores_north_to_south(stores_in_radius) 
+        return sorted_stores
+    return []
+
