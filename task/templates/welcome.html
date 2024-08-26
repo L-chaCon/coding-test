@@ -3,6 +3,26 @@
 Welcome!!
 {% endblock %}
 {% block content %}
-<h1>Welcome</h1>
-<a href="{{ url_for('stores_routes.stores') }}">Stores</a>
+<h1>Welcome, Octavio Montt Task</h1>
+<p>To go to the store list folow the link: <a href="{{ url_for('stores_routes.stores') }}">Stores</a></p>
+<br>
+<p>Here is a link to the repository <a href="https://github.com/L-chaCon/coding-test/tree/master">Octavio's task</a></p>
+<div>
+<h4>Answering the questions</h4>
+</div>
+<div>
+  <ul>
+  <li>Which test did you complete? (backend or full-stack)</li>
+    <p>Backend</p>
+  <li>If you had chosen to spend more time on this test, what would you have done differently?</li>
+    <p>With more time, I would have focused on better managing error handling. I got stuck for a moment on the last functionality because I was trying to use the Postcode.io API to find stores within a radius. Unfortunately, this backfired as I didn’t realize until the end that the API limit was 130 meters. I had to redo the function and calculate the distance manually, which left me with insufficient time to properly implement error handling.</p>
+    <p>Additionally, the function for cleaning postcodes in the database is very slow because it searches for each postcode individually to compare. I might have been able to optimize this function as well.</p>
+    <p>Another change I would have made is to use volumes instead of the populate_database function for Docker. This would have been more efficient because the database only needs to be generated once.</p>
+  <li>What part did you find the hardest? What part are you most proud of? In both cases, why?</li>
+    <p>The hardest part for me was creating the function that calculates distances. It required some research to determine how to compute distances using latitude and longitude, which was a new challenge for me.</p>
+    <p>I’m most proud of the project’s overall structure. I believe I organized it well, with a clear separation of functionalities in the code. This organization helps in maintaining and scaling the project effectively.</p>
+  <li>What is one thing we could do to improve this test?</li>
+    <p>I think the test was very clear and enjoyable, and it was a good exercise. One suggestion for improvement would be to provide more explicit guidance regarding the use of external APIs for the functionality. I initially interpreted the instructions as encouraging the use of the API, so clearer direction on whether to use it or not would be helpful. Overall, I really enjoyed the test and found it to be a valuable experience.</p>
+  </ul>
+</div>
 {% endblock %}
