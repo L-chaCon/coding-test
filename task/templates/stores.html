@@ -4,5 +4,21 @@ Stores
 {% endblock %}
 {% block content %}
 <h1>Stores</h1>
+<table>
+  <tr>
+    <th>Store Name</th>
+    <th>Postcode</th>
+    <th>Latirude</th>
+    <th>Longitude</th>
+  </tr>
+    {% for store in stores %}
+    <tr>
+        <td>{{ store.name }}</td>
+        <td>{{ store.postcode }}</td>
+        <td>{{ store.latitude }}</td>
+        <td>{{ store.longitude }}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}
 

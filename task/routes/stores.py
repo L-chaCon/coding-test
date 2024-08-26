@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, render_template
 
+from task.models.stores import get_all_stores_in_alphabetical_order
+
 stores_routes = Blueprint('stores_routes', __name__)
 
 @stores_routes.route('/status')
@@ -12,4 +14,5 @@ def welcome():
 
 @stores_routes.route('/stores')
 def stores():
-    return render_template("stores.html")
+    stores = get_all_stores_in_alphabetical_order()
+    return render_template("stores.html", stores = stores)
