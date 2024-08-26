@@ -4,3 +4,5 @@
 **/.mypy_**
 
 **.sqlite
+
+!tests/test.sqlite
