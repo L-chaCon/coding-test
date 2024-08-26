@@ -27,3 +27,51 @@ def get_all_stores_in_alphabetical_order() -> list[Stores]:
     except:
         raise Exception()
     return all_stores_order_by_name
+
+
+def get_stores(stores: list[str] = []) -> list[Stores]:
+    """
+    By default gets all stores, a list of postcodes to only get the stores with that
+    postcode
+    """
+    if not stores:
+        try:
+            store_list = Stores.query.all()
+        except:
+            raise Exception()
+    else:
+        try:
+            store_list = Stores.query.filter(Stores.postcode.in_(stores)).all()
+        except:
+            raise Exception()
+    return store_list 
+
+
+def update_postcode_stores_in_bulk(update_data: list[dict]) -> None:
+    try:
+        for data in update_data:
+            store = Stores.query.filter_by(id=data['id']).first()
+            if store:
+                store.postcode = data['postcode']
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f"Fail to update Stores: {e}")
+    finally:
+        db.session.close()
+
+
+def update_lat_long_stores_in_bulk(update_data: list[dict]) -> None:
+    try:
+        for data in update_data:
+            store = Stores.query.filter_by(id=data['id']).first()
+            if store:
+                store.latitude = data['latitude']
+                store.longitude = data['longitude']
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f"Fail to update Stores: {e}")
+    finally:
+        db.session.close()
+

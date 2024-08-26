@@ -4,6 +4,17 @@ Stores
 {% endblock %}
 {% block content %}
 <h1>Stores</h1>
+<div>
+  <a href="{{ url_for('stores_routes.store_clean_data') }}">Clean Database</a>
+</div>
+<div>
+  <a href="{{ url_for('stores_routes.calculate_lat_long') }}">Calculate Latitude and Longitude</a>
+</div>
+
+{% if message %}
+<h3>{{ message }}</h3>
+{% endif  %}
+
 <table>
   <tr>
     <th>Store Name</th>
@@ -21,4 +32,3 @@ Stores
     {% endfor %}
 </table>
 {% endblock %}
-
