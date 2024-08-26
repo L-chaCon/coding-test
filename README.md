@@ -14,6 +14,8 @@ docker run -p 42069:42069 -d octavio-task
 ```
 3. Access the Application
 To view the application, go to [Welcome Page](http://127.0.0.1:42069/)
+4. Update the data
+Go to [store](http://127.0.0.1:42069/stores) and click the [clean database](http://127.0.0.1:42069/stores/clean) link. This take a bit(I'm sorry). To set the Latitude and Longitude run the [calculate latitude and longitude](http://127.0.0.1:42069/stores/calculate_lat_long).
 
 ### Considerations
 - **Postcode Formatting:** One postcode in `store.json` is not in the same format as required by the API. I created a function to clean the database and align it with the API’s format to get the latitude and longitude information. I opted for a function rather than modifying the JSON file directly, as it provides a more general solution. However, this function can be quite slow.
